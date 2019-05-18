@@ -20,6 +20,7 @@ class YPAssetViewContainer: UIView {
     public let squareCropButton = UIButton()
     public let multipleSelectionButton = UIButton()
     public var onlySquare = YPConfig.library.onlySquare
+    public var preserveOriginalRatio = YPConfig.video.preserveOriginalRatio
     public var isShown = true
     
     private let spinner = UIActivityIndicatorView(style: .white)
@@ -90,6 +91,11 @@ class YPAssetViewContainer: UIView {
         if let zoomableView = zoomableView {
             let z = zoomableView.zoomScale
             shouldCropToSquare = (z >= 1 && z < zoomableView.squaredZoomScale)
+            
+            if !zoomableView.isVideoMode, preserveOriginalRatio {
+                shouldCropToSquare = false
+            }
+            
         }
         zoomableView?.fitImage(shouldCropToSquare, animated: true)
     }
@@ -102,6 +108,12 @@ class YPAssetViewContainer: UIView {
             if let image = zoomableView?.assetImageView.image {
                 let isImageASquare = image.size.width == image.size.height
                 squareCropButton.isHidden = isImageASquare
+            }
+            
+            if let zoomableView = zoomableView, zoomableView.isVideoMode, preserveOriginalRatio {
+                squareCropButton.isHidden = true
+                zoomableView.fitImage(false)
+                return
             }
         }
         
