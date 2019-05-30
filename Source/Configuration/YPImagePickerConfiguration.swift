@@ -111,6 +111,9 @@ public struct YPImagePickerConfiguration {
         YPFilter(name: "Sepia", coreImageFilterName: "CISepiaTone"),
         ]
     
+    /// Indicates if picker should preserve video origial aspect ratio. Defaults to false.
+    public var preserveOriginalRatio = false
+    
     /// Migration
     
     @available(iOS, obsoleted: 3.0.0, renamed: "video.compression")
@@ -215,9 +218,6 @@ public struct YPConfigVideo {
     /// The minimum duration allowed for the trimming.
     /// The handles won't pan further if the minimum duration is attained.
     public var trimmerMinDuration: Double = 3.0
-    
-    /// Indicates if picker should preserve video origial aspect ratio. Defaults to false.
-    public var preserveOriginalRatio = false
 }
 
 public enum YPlibraryMediaType {
